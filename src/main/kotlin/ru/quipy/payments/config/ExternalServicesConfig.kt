@@ -1,5 +1,6 @@
 package ru.quipy.payments.config
 
+import okhttp3.OkHttpClient
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import ru.quipy.payments.logic.ExternalServiceProperties
@@ -9,7 +10,8 @@ import java.time.Duration
 
 @Configuration
 class ExternalServicesConfig(
-    val accountService: AccountService
+    val accountService: AccountService,
+    val client: OkHttpClient
 ) {
     companion object {
         const val PRIMARY_PAYMENT_BEAN = "PRIMARY_PAYMENT_BEAN"
@@ -63,6 +65,7 @@ class ExternalServicesConfig(
     @Bean(PRIMARY_PAYMENT_BEAN)
     fun fastExternalService() =
         PaymentExternalServiceImpl(
-            accountService
+            accountService,
+            client
         )
 }
